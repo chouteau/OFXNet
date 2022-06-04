@@ -1,0 +1,6 @@
+# Visual Studio Items
+.vs/
+
+# Build Results
+bin/
+obj/
