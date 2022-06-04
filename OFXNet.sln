@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OFXNet", "OFXNet\OFXNet.csproj", "{CA619AF5-FC47-4C22-B73C-30781EAF82FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OFXNet.Tests", "OFXNet.Tests\OFXNet.Tests.csproj", "{05DA1FF0-C17C-4875-9A78-F1628027715D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA619AF5-FC47-4C22-B73C-30781EAF82FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA619AF5-FC47-4C22-B73C-30781EAF82FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA619AF5-FC47-4C22-B73C-30781EAF82FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA619AF5-FC47-4C22-B73C-30781EAF82FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05DA1FF0-C17C-4875-9A78-F1628027715D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DA1FF0-C17C-4875-9A78-F1628027715D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DA1FF0-C17C-4875-9A78-F1628027715D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DA1FF0-C17C-4875-9A78-F1628027715D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C32C3A7-E11D-4F62-9A73-726EBECF2F4E}
+	EndGlobalSection
+EndGlobal
