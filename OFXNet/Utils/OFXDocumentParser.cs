@@ -1,26 +1,44 @@
 ﻿using OFXNet.Enums;
 using OFXNet.Infrastructure.Exceptions;
 using OFXNet.Infrastructure.Extensions;
+using OFXNet.Models;
 using OFXNet.Properties;
 using System.Text;
 using System.Xml;
 
-namespace OFXNet.Models
+namespace OFXNet.Utils
 {
     public class OFXDocumentParser
     {
-        public OFXDocument Import(FileStream stream)
+        /// <summary>
+        /// Imports an OFX file and returns a <see cref="OFXDocument">OFXDocument</see>.
+        /// </summary>
+        /// <param name="stream">The stream pointing to OFX file.</param>
+        /// <returns>The parsed OFXDocument</returns>
+        public static OFXDocument Import(FileStream stream)
         {
             using StreamReader reader = new(stream, Encoding.Default);
             return Import(reader.ReadToEnd());
         }
 
-        public OFXDocument Import(string ofx)
+        /// <summary>
+        /// Internal method used by <see cref="Import">Import</see>. Can be used directly in the file is already
+        /// available as a string.
+        /// </summary>
+        /// <param name="ofx">The OFX file as a string.</param>
+        /// <returns>The parsed OFXDocument</returns>
+        public static OFXDocument Import(string ofx)
         {
             return ParseOfxDocument(ofx);
         }
 
-        private OFXDocument ParseOfxDocument(string ofxString)
+        /// <summary>
+        /// Determines if the document needs to be converted to XML before parsing, before calling the <see cref="Parse">Parse</see> method to
+        /// parse the document.
+        /// </summary>
+        /// <param name="ofx">The OFX file as a string.</param>
+        /// <returns>The parsed OFXDocument</returns>
+        private static OFXDocument ParseOfxDocument(string ofxString)
         {
             //If OFX file in SGML format, convert to XML
             if (!IsXmlVersion(ofxString))
@@ -31,15 +49,15 @@ namespace OFXNet.Models
             return Parse(ofxString);
         }
 
-        private OFXDocument Parse(string ofxString)
+        private static OFXDocument Parse(string ofxString)
         {
-            OFXDocument ofx = new() { AccType = GetAccountType(ofxString) };
+            OFXDocument ofx = new() { AccountType = GetAccountType(ofxString) };
 
             //Load into xml document
             XmlDocument doc = new();
             doc.Load(new StringReader(ofxString));
 
-            XmlNode? currencyNode = doc.SelectSingleNode(GetXPath(ofx.AccType, OFXSection.CURRENCY));
+            XmlNode? currencyNode = doc.SelectSingleNode(GetXPath(ofx.AccountType, OFXSection.CURRENCY));
 
             if (currencyNode != null && currencyNode.FirstChild != null)
             {
@@ -64,12 +82,12 @@ namespace OFXNet.Models
             }
 
             //Get Account information for ofx doc
-            var accountNode = doc.SelectSingleNode(GetXPath(ofx.AccType, OFXSection.ACCOUNTINFO));
+            var accountNode = doc.SelectSingleNode(GetXPath(ofx.AccountType, OFXSection.ACCOUNTINFO));
 
             //If account info present, populate account object
             if (accountNode != null)
             {
-                ofx.Account = new Account(accountNode, ofx.AccType);
+                ofx.Account = new Account(accountNode, ofx.AccountType);
             }
             else
             {
@@ -80,8 +98,8 @@ namespace OFXNet.Models
             ImportTransations(ofx, doc);
 
             //Get balance info from ofx doc
-            var ledgerNode = doc.SelectSingleNode(GetXPath(ofx.AccType, OFXSection.BALANCE) + "/LEDGERBAL");
-            var avaliableNode = doc.SelectSingleNode(GetXPath(ofx.AccType, OFXSection.BALANCE) + "/AVAILBAL");
+            var ledgerNode = doc.SelectSingleNode(GetXPath(ofx.AccountType, OFXSection.BALANCE) + "/LEDGERBAL");
+            var avaliableNode = doc.SelectSingleNode(GetXPath(ofx.AccountType, OFXSection.BALANCE) + "/AVAILBAL");
 
             //If balance info present, populate balance object
             if (ledgerNode != null)
@@ -139,17 +157,18 @@ namespace OFXNet.Models
         /// <returns>List of transactions found in OFX document</returns>
         private static void ImportTransations(OFXDocument ofxDocument, XmlDocument doc)
         {
-            var xpath = GetXPath(ofxDocument.AccType, OFXSection.TRANSACTIONS);
+            var xpath = GetXPath(ofxDocument.AccountType, OFXSection.TRANSACTIONS);
 
             ofxDocument.StatementStart = doc.GetValue(xpath + "//DTSTART").ToDate();
             ofxDocument.StatementEnd = doc.GetValue(xpath + "//DTEND").ToDate();
 
-            var transactionNodes = doc.SelectNodes(xpath + "//STMTTRN");
+            XmlNodeList? transactionNodes = doc.SelectNodes(xpath + "//STMTTRN");
 
-            ofxDocument.Transactions = new List<Transaction>();
-
-            foreach (XmlNode node in transactionNodes)
-                ofxDocument.Transactions.Add(new Transaction(node, ofxDocument.Currency));
+            if (transactionNodes != null)
+            {
+                foreach (XmlNode node in transactionNodes)
+                    ofxDocument.Transactions.Add(new Transaction(node, ofxDocument.Currency ?? null));
+            }
         }
 
 

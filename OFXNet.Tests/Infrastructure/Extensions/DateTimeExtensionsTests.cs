@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace OFXNet.Tests.Infrastructure.Extensions
 {
     [TestClass]
-    public class DateTimeExtensions
+    public class DateTimeExtensionsTests
     {
         [TestMethod]
         public void ToDate_ReturnsValidDate_OnValidInput()
