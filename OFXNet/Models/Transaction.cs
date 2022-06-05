@@ -38,15 +38,11 @@ namespace OFXNet.Models
 
         public string PayeeID { get; set; }
 
-        public Account TransactionSenderAccount { get; set; }
+        public Account? TransactionSenderAccount { get; set; }
 
-        public string Currency { get; set; }
+        public string? Currency { get; set; }
 
-        public Transaction()
-        {
-        }
-
-        public Transaction(XmlNode node, string currency)
+        public Transaction(XmlNode node, string? currency)
         {
             TransType = GetTransactionType(node.GetValue(".//TRNTYPE"));
             Date = node.GetValue(".//DTPOSTED").ToDate();
@@ -55,6 +51,7 @@ namespace OFXNet.Models
 
             try
             {
+                // Culture must be invariant to handle values correctly
                 Amount = Convert.ToDecimal(node.GetValue(".//TRNAMT"), CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
@@ -73,14 +70,10 @@ namespace OFXNet.Models
 
             IncorrectTransactionID = node.GetValue(".//CORRECTFITID");
 
-
             //If Transaction Correction Action exists, populate
-            var tempCorrectionAction = node.GetValue(".//CORRECTACTION");
+            string tempCorrectionAction = node.GetValue(".//CORRECTACTION");
 
-            TransactionCorrectionAction = !string.IsNullOrEmpty(tempCorrectionAction)
-                                             ? GetTransactionCorrectionType(tempCorrectionAction)
-                                             : TransactionCorrectionType.NA;
-
+            TransactionCorrectionAction = !string.IsNullOrEmpty(tempCorrectionAction) ? GetTransactionCorrectionType(tempCorrectionAction) : TransactionCorrectionType.NA;
             ServerTransactionID = node.GetValue(".//SRVRTID");
             CheckNum = node.GetValue(".//CHECKNUM");
             ReferenceNumber = node.GetValue(".//REFNUM");
@@ -100,9 +93,21 @@ namespace OFXNet.Models
 
             //If senders bank/credit card details avaliable, add
             if (NodeExists(node, ".//BANKACCTTO"))
-                TransactionSenderAccount = new Account(node.SelectSingleNode(".//BANKACCTTO"), AccountType.BANK);
+            {
+                XmlNode? bankAccountNode = node.SelectSingleNode(".//BANKACCTTO");
+                if (bankAccountNode != null)
+                {
+                    TransactionSenderAccount = new Account(bankAccountNode, AccountType.BANK);
+                }
+            }
             else if (NodeExists(node, ".//CCACCTTO"))
-                TransactionSenderAccount = new Account(node.SelectSingleNode(".//CCACCTTO"), AccountType.CC);
+            {
+                XmlNode? creditCardNode = node.SelectSingleNode(".//CCACCTTO");
+                if (creditCardNode != null)
+                {
+                    TransactionSenderAccount = new Account(creditCardNode, AccountType.CC);
+                }
+            }
         }
 
         /// <summary>

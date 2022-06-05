@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RootElement>
+	<ChildElement>
+		<SubChildElement>
+			<Value>TestValue</Value>
+		</SubChildElement>
+	</ChildElement>
+</RootElement> 

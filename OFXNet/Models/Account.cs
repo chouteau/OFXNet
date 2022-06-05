@@ -17,7 +17,6 @@ namespace OFXNet.Models
         public Account(XmlNode node, AccountType type)
         {
             AccountType = type;
-
             AccountID = node.GetValue("//ACCTID");
             AccountKey = node.GetValue("//ACCTKEY");
 
@@ -38,8 +37,10 @@ namespace OFXNet.Models
         }
 
         /// <summary>
-        /// Initializes information specific to bank
+        /// Initialise the bank details for this account. Bank details are optional and only set if included in the OFX File.
         /// </summary>
+        /// <param name="node">The bank node</param>
+        /// <exception cref="OFXParseException">If the bank account type cannot be read</exception>
         private void InitializeBank(XmlNode node)
         {
             BankID = node.GetValue("//BANKID");
