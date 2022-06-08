@@ -4,6 +4,17 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Description>OFXNet is a OFX parser and interpreter, written in C#.</Description>
+    <Copyright>2022 Liam Pietralla</Copyright>
+    <PackageProjectUrl>https://github.com/LiamPietralla/OFXNet</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/LiamPietralla/OFXNet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>c#;ofx;banking</PackageTags>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +40,13 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\Helpers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
