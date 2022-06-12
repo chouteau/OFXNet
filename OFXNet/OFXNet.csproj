@@ -1,52 +1,56 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Description>OFXNet is a OFX parser and interpreter, written in C#.</Description>
-    <Copyright>2022 Liam Pietralla</Copyright>
-    <PackageProjectUrl>https://github.com/LiamPietralla/OFXNet</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/LiamPietralla/OFXNet</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>c#;ofx;banking</PackageTags>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
-    <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Description>OFXNet is a OFX parser and interpreter, written in C#.</Description>
+		<Copyright>2022 Liam Pietralla</Copyright>
+		<PackageProjectUrl>https://github.com/LiamPietralla/OFXNet</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/LiamPietralla/OFXNet</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>c#;ofx;banking</PackageTags>
+		<AssemblyVersion>1.0.0</AssemblyVersion>
+		<FileVersion>1.0.0</FileVersion>
+		<VersionPrefix>1.0.1</VersionPrefix>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageId>$(AssemblyName).Parser</PackageId>
+		<Company>$(Authors)</Company>
+		<Authors>Liam Pietralla</Authors>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Reference Include="SgmlReader.Logic">
-      <HintPath>lib\SgmlReader.Logic.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="SgmlReader.Logic">
+			<HintPath>lib\SgmlReader.Logic.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Properties\Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\Helpers\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Infrastructure\Helpers\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

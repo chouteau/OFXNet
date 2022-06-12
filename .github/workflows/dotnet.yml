@@ -1,4 +1,4 @@
-name: OFXNet Master
+name: Build and Test
 
 on:
   push:
