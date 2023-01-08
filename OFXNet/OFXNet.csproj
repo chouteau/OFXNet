@@ -12,9 +12,12 @@
 		<RepositoryUrl>https://github.com/LiamPietralla/OFXNet</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>c#;ofx;banking</PackageTags>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.0.0</FileVersion>
+		<AssemblyVersion>1.0.1</AssemblyVersion>
+		<FileVersion>1.0.1</FileVersion>
 		<VersionPrefix>1.0.1</VersionPrefix>
+		<PackageReleaseNotes>
+			1.0.1 : fix -> check headers unordered 
+		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageId>$(AssemblyName).Parser</PackageId>
 		<Company>$(Authors)</Company>

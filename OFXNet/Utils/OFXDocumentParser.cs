@@ -256,29 +256,55 @@ namespace OFXNet.Utils
         {
             if (header[0] == "OFXHEADER:100DATA:OFXSGMLVERSION:102SECURITY:NONEENCODING:USASCIICHARSET:1252COMPRESSION:NONEOLDFILEUID:NONENEWFILEUID:NONE")//non delimited header
                 return;
-            if (header[0] != "OFXHEADER:100")
+
+            var headers = from item in header
+                          let part = item.Split(':')
+                          select new
+                          {
+                              Name = part[0].Trim().ToUpper(),
+                              Value = part[1].Trim().ToUpper(),
+                              Header = item
+                          };
+
+            if (!headers.Any(i => i.Name == "OFXHEADER" && i.Value == "100"))
+            {
                 throw new OFXParseException("Incorrect header format");
+            }
 
-            if (header[1] != "DATA:OFXSGML")
-                throw new OFXParseException("Data type unsupported: " + header[1] + ". OFXSGML required");
+            if (!headers.Any(i => i.Name == "DATA" && i.Value == "OFXSGML"))
+            {
+                throw new OFXParseException("Data type unsupported: DATA. OFXSGML required");
+            }
 
-            if (header[2] != "VERSION:102")
-                throw new OFXParseException("OFX version unsupported. " + header[2]);
+            if (!headers.Any(i => i.Name == "VERSION" && i.Value == "102"))
+            {
+                throw new OFXParseException("OFX version unsupported. " + headers.Single(i => i.Name == "VERSION").Header);
+            }
 
-            if (header[3] != "SECURITY:NONE")
+            if (!headers.Any(i => i.Name == "SECURITY" && i.Value == "NONE"))
+            {
                 throw new OFXParseException("OFX security unsupported");
+            }
 
-            if (header[4] != "ENCODING:USASCII")
-                throw new OFXParseException("ASCII Format unsupported:" + header[4]);
+            if (!headers.Any(i => i.Name == "ENCODING" && i.Value == "USASCII"))
+            {
+                throw new OFXParseException("ASCII Format unsupported:" + headers.Single(i => i.Name == "ENCODING").Header);
+            }
 
-            if (header[5] != "CHARSET:1252")
-                throw new OFXParseException("Charecter set unsupported:" + header[5]);
+            if (!headers.Any(i => i.Name == "CHARSET" && i.Value == "1252"))
+            {
+                throw new OFXParseException("Charecter set unsupported:" + headers.Single(i => i.Name == "CHARSET").Header);
+            }
 
-            if (header[6] != "COMPRESSION:NONE")
+            if (!headers.Any(i => i.Name == "COMPRESSION" && i.Value == "NONE"))
+            {
                 throw new OFXParseException("Compression unsupported");
+            }
 
-            if (header[7] != "OLDFILEUID:NONE")
+            if (!headers.Any(i => i.Name == "OLDFILEUID" && i.Value == "NONE"))
+            {
                 throw new OFXParseException("OLDFILEUID incorrect");
+            }
         }
     }
 }
